@@ -1,0 +1,47 @@
+package clases;
+import java.util.ArrayList;
+
+public class Distribuidora extends Usuario{
+	ArrayList<Region> _alcance = new ArrayList<Region>();
+	int _cantidadMiembros;
+	
+	
+	public int get_cantidadMiembros() {
+		return _cantidadMiembros;
+	}
+	
+	public void set_cantidadMiembros(int _cantidadMiembros) {
+		this._cantidadMiembros = _cantidadMiembros;
+	}
+	
+	public Boolean rmFromAlcance(int indice) {
+		try {
+			this._alcance.remove(indice);
+			return true;
+		}
+		catch (IndexOutOfBoundsException ex) {
+			System.out.println("Fuera de limite!");
+			return false;
+		}
+	}
+	
+	public Boolean rmFromAlcance(Region region) {
+		return (this._alcance.remove(region));
+	}
+	
+	public void addToAlcance(Region region) {
+		this._alcance.add(region);
+	}
+	
+	public void clrAlcance() {
+		this._alcance.clear();
+	}
+
+	public Distribuidora(String infPago, Region region, int cantidadMiembros) {
+		super(infPago, region);
+		this.set_cantidadMiembros(cantidadMiembros);
+	}
+	
+	
+	
+}
