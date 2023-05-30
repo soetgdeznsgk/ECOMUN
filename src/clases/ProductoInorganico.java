@@ -1,7 +1,7 @@
 package clases;
 
 public class ProductoInorganico extends Producto{
-	public int _densidad;
+	public int _densidad; // representa peso sobre metro cubico
 
 	public int get_densidad() {
 		return _densidad;
@@ -11,7 +11,7 @@ public class ProductoInorganico extends Producto{
 		this._densidad = _densidad;
 	}
 
-	public ProductoInorganico(int peso, String nombre, String categoria, int precio, int densidad) {
+	public ProductoInorganico(float peso, String nombre, String categoria, int precio, int densidad) {
 		super(peso, nombre, categoria, precio);
 		this.set_densidad(densidad);
 	}

@@ -80,8 +80,8 @@ public class Cooperativa extends Usuario {
 		return super.rmFromLista(i);
 		
 	}
-	public Cooperativa(String infPago, Region region, String esp, int cantidadMiembros) {
-		super(infPago, region);
+	public Cooperativa(String nombre, String telContacto, String infPago, Region region, String esp, int cantidadMiembros) {
+		super(nombre, telContacto,infPago, region);
 		this.set_cantidadMiembros(cantidadMiembros);
 		this.set_especializacion(esp);
 	}

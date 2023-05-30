@@ -1,8 +1,7 @@
 package clases;
 import java.util.ArrayList;
 
-public final class ECOMUN extends Entidad {
-	this._nombre = "ECOMUN";
+public final class Ecomun extends Entidad{
 	ArrayList<Region> _alcanceNacional = new ArrayList<Region>(); // no está planteado como cambiar éste atributo al eliminar una cooperativa
 	ArrayList<Cooperativa> _cooperativas = new ArrayList<Cooperativa>();
 	
@@ -16,5 +15,26 @@ public final class ECOMUN extends Entidad {
 		
 		return true;}
 	
-	public void
+	public Boolean rmCooperativa(int indice) {
+		try {
+			this._cooperativas.remove(indice);
+			return true;}
+		
+		catch(IndexOutOfBoundsException ex) {
+			return false;}
+	}
+	
+	public void clrCoops() {
+		this._cooperativas.clear();
+	}
+	
+	public ArrayList<Region> getRegiones(){
+		return this._alcanceNacional;
+	}
+
+	public Ecomun(String telContacto) {
+		super("Ecomun", telContacto);
+	}
+	
+
 }

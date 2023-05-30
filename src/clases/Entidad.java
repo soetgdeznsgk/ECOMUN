@@ -26,4 +26,9 @@ public abstract class Entidad {
 		return ((this._telContacto != null) ? 
 				(this._telContacto) : (new String("!")));
 	}
+	
+	public Entidad(String nombre, String telContacto) {
+		this._nombre = nombre;
+		this._telContacto = telContacto;
+	}
 }

@@ -58,7 +58,9 @@ public class Usuario extends Entidad{
 		}
 	}
 	
-	
+	public ArrayList<Producto> getLista(){
+		return this._listaProductos;
+	}
 	
 	public final void setRegion(Region region) {
 		this._region = region;
@@ -68,7 +70,8 @@ public class Usuario extends Entidad{
 		return this._region;
 	}
 	
-	public Usuario(String infPago, Region region) {
+	public Usuario(String nombre, String telContacto, String infPago, Region region) {
+		super(nombre, telContacto);
 		this.setInfPago(infPago);
 		this.setRegion(region);
 		Entidad._cantidadUsuarios++;

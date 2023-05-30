@@ -6,12 +6,12 @@ public class Producto {
 	String _categoria;
 	int _precio;
 	int _disponibilidad = 0; // se altera desde cada asignación en una Cooperativa y representa una cantidad global
-	int _peso;
+	float _peso;
 	
 	
 	
 	
-	public Producto(int peso, String nombre, String categoria, int precio){
+	public Producto(float peso, String nombre, String categoria, int precio){
 		this._peso = peso;
 		this._nombre = nombre;
 		this._categoria = categoria;
@@ -70,11 +70,11 @@ public class Producto {
 
 
 
-	public int get_peso() {
+	public float get_peso() {
 		return _peso;
 	}
 	
-	public void set_peso(int peso) {
+	public void set_peso(float peso) {
 		this._peso = peso;
 	}
 	

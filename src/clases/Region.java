@@ -46,4 +46,9 @@ public class Region extends Entidad{
 	public void clrCoop() {
 		this._coopsPresentes.clear();
 	}
+	
+	public Region(String nombre, String telContacto, String direccion) {
+		super(nombre, telContacto);
+		this.setDireccion(direccion);
+	}
 }

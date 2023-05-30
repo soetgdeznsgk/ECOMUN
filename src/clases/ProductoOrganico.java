@@ -16,11 +16,10 @@ public class ProductoOrganico extends Producto{
 		this._fechaVencimiento = LocalDate.of(y, m, d);
 	}
 
-	public ProductoOrganico(int peso, String nombre, String categoria, int precio, int y, int m, int d) {
+	public ProductoOrganico(float peso, String nombre, String categoria, int precio, int y, int m, int d) {
 		super(peso, nombre, categoria, precio);
 		this.set_fechaVencimiento(y, m, d);
 		
-		// TODO Auto-generated constructor stub
 	}
 	
 	
