@@ -85,7 +85,7 @@ public class Cooperativa extends Usuario {
 		this.set_cantidadMiembros(cantidadMiembros);
 		this.set_especializacion(esp);
 	}
-	
+
 
 	
 }
