@@ -2,11 +2,14 @@ package logica;
 import clases.*;
 import UI.ui;
 
+import java.io.*;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class logica {
 	
-	public static Comprador registroComprador(Scanner sc, Ecomun e) {
+	public static Boolean registroComprador(Scanner sc, Ecomun e) {
+		
 		System.out.println("Ingrese su nombre");
 		String nombre = sc.nextLine();
 		System.out.println("Ingrese su teléfono de contacto");
@@ -18,8 +21,63 @@ public class logica {
 		int eleccion = sc.nextInt();
 		Region region = e.getRegiones().get(eleccion);
 		
+		try {
+			FileWriter fw = new FileWriter("datos_usuarios.txt");
+			Comprador comprador = new Comprador(nombre, telContacto, infPago, region);
+			fw.write(comprador.toString());
+			fw.close();
+			return true;}
 		
-		return new Comprador(nombre, telContacto, infPago, region);
+		catch (IOException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	
+	public static ArrayList<Comprador> lecturaCompradores(Ecomun e) {
+		FileReader ar;
+		ArrayList<Comprador> compradores = new ArrayList<Comprador>();
+		Comprador compradorTemp;
+		
+		
+		try {
+			ar = new FileReader("datos_usuarios.txt");
+			Scanner sc = new Scanner(ar);
+			int r;
+			String temp = "";
+			String[] outTemp;
+			String nombre, infPago, tel;
+			Region region;
+			
+			while ((r = ar.read()) != -1) { 
+				if ((char) r != ',') {
+					temp += String.valueOf((char) r);
+				}
+				else {
+					outTemp = temp.split("-");
+					nombre = outTemp[0];
+					infPago = outTemp[1];
+					tel = outTemp[2];
+					region = e.getRegion(outTemp[3]);
+					
+					compradorTemp = new Comprador(nombre, infPago, tel, region);
+					compradores.add(compradorTemp);
+					
+					temp = "";
+				}
+			}
+			
+			sc.close();
+			
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+			return null;
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return compradores;
 	}
 	
 	
@@ -63,6 +121,7 @@ public class logica {
 		// main
 		
 		while (true) {
+			ECOMUN.setCompradores(lecturaCompradores(ECOMUN));
 			ui.Bienvenida();
 			int input1 = sc.nextInt();
 			
@@ -75,10 +134,10 @@ public class logica {
 			case 2:
 				break;
 			case 3:
-				Comprador usuario = registroComprador(sc, ECOMUN);
+				registroComprador(sc, ECOMUN);
 				break;
 			
-			ui.ProductosPorCoop(ECOMUN.getCooperativas().get(i));
+			//ui.ProductosPorCoop(ECOMUN.getCooperativas().get(i));
 			}
 		}
 	}

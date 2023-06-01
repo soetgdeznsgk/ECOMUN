@@ -47,5 +47,11 @@ public class Comprador extends Usuario{
 	public Comprador(String nombre, String telContacto, String infPago, Region region) {
 		super(nombre, telContacto, infPago, region);
 	}
+	
+	@Override
+	
+	public String toString() {
+		return (this.getNombre() + "," + this.getInfPago() + "," + this.getTel() + "," + this.getRegion().getNombre() + "\n");
+	}
 
 }
