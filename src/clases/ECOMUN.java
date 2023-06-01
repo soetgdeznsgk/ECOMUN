@@ -28,6 +28,10 @@ public final class Ecomun extends Entidad{
 		this._cooperativas.clear();
 	}
 	
+	public ArrayList<Cooperativa> getCooperativas(){
+		return this._cooperativas;
+	}
+	
 	public ArrayList<Region> getRegiones(){
 		return this._alcanceNacional;
 	}
