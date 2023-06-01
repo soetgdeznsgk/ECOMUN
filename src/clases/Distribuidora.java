@@ -37,6 +37,10 @@ public class Distribuidora extends Usuario{
 		this._alcance.clear();
 	}
 
+	public ArrayList<Region> getAlcance() {
+		return this._alcance;
+	}
+
 	public Distribuidora(String nombre, String telContacto, String infPago, Region region, int cantidadMiembros) {
 		super(nombre, telContacto, infPago, region);
 		this.set_cantidadMiembros(cantidadMiembros);

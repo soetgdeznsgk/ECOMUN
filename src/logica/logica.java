@@ -7,9 +7,12 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class logica {
+
+	static String directorioActual = System.getProperty("user.dir");
+	static String ubicacionDeDatos = directorioActual + File.separator + "src" + File.separator + "datos_usuarios.txt";
 	
 	public static Boolean registroComprador(Scanner sc, Ecomun e) {
-		
+		System.out.println("Su usuario no se registrará en caso de que ECOMUN no tenga cobertura en su área");
 		System.out.println("Ingrese su nombre");
 		String nombre = sc.nextLine();
 		System.out.println("Ingrese su teléfono de contacto");
@@ -22,7 +25,7 @@ public class logica {
 		Region region = e.getRegiones().get(eleccion);
 		
 		try {
-			FileWriter fw = new FileWriter("datos_usuarios.txt");
+			FileWriter fw = new FileWriter(ubicacionDeDatos);
 			Comprador comprador = new Comprador(nombre, telContacto, infPago, region);
 			fw.write(comprador.toString());
 			fw.close();
@@ -43,7 +46,7 @@ public class logica {
 		
 		
 		try {
-			ar = new FileReader("datos_usuarios.txt");
+			ar = new FileReader(ubicacionDeDatos);
 			Scanner sc = new Scanner(ar);
 			int r;
 			String temp = "";
@@ -52,14 +55,18 @@ public class logica {
 			Region region;
 			
 			while ((r = ar.read()) != -1) { 
-				if ((char) r != ',') {
+				//System.out.print((char)r);
+				if ((char) r != '\n') {
+					//System.out.print((char) r);
 					temp += String.valueOf((char) r);
 				}
 				else {
-					outTemp = temp.split("-");
+					outTemp = temp.split(",");
 					nombre = outTemp[0];
 					infPago = outTemp[1];
 					tel = outTemp[2];
+					System.out.println(outTemp[3]); // debug
+					System.out.println(e.getRegion(outTemp[3])); // debug
 					region = e.getRegion(outTemp[3]);
 					
 					compradorTemp = new Comprador(nombre, infPago, tel, region);
@@ -83,6 +90,7 @@ public class logica {
 	
 	
 	public static void main(String[] args) {
+		//System.out.println("-aca comienza- \n"+ubicacionDeDatos+"\n-aca termina"); debug
 		Scanner sc = new Scanner(System.in);
 		// ECOMUN
 		Ecomun ECOMUN = new Ecomun("+57 300 1112233");
@@ -94,8 +102,8 @@ public class logica {
 		Region Antioquia = new Region("Antioquia", "989 8989", "Medellín, Barranquilla con 3ra");
 		
 		// Usuarios 
-		Comprador PepeGrillo = new Comprador("Pepe Grillo", "123 4567890", "1234-5678-9101-1121", Cundinamarca);
-		Comprador Emiliano = new Comprador("Emiliano Guerra", "350 2825442", "kek", Cundinamarca);
+		//Comprador PepeGrillo = new Comprador("Pepe Grillo", "123 4567890", "1234-5678-9101-1121", Cundinamarca);
+		//Comprador Emiliano = new Comprador("Emiliano Guerra", "350 2825442", "kek", Cundinamarca);
 		
 		// Productos
 		
@@ -111,7 +119,7 @@ public class logica {
 		LaRoja.addToLista(CervezaArtesanal);
 		LaRoja.addToLista(VinoArtesanal);
 		Cooperativa CfParamillo = new Cooperativa("Cafe Paramillo", "333 1112223", "solomillos gonorrea", Antioquia, "Agricultura", 38, ECOMUN);
-		
+		Cooperativa Manusm = new Cooperativa("Mercado Artesanal Nacional de Usme", "101 0101", "solo usme gono", Cundinamarca, "Agricultura", 14, ECOMUN);
 		// Distribuidoras
 		
 		Distribuidora EntregaRoja = new Distribuidora("Entrega Roja", "7700 200", "ykc", Cundinamarca, 32);
@@ -122,6 +130,11 @@ public class logica {
 		
 		while (true) {
 			ECOMUN.setCompradores(lecturaCompradores(ECOMUN));
+
+			//ui.Regiones(ECOMUN);
+			for (Comprador c: ECOMUN.getCompradores()){
+				System.out.println(c.toString());
+			}
 			ui.Bienvenida();
 			int input1 = sc.nextInt();
 			
@@ -137,7 +150,6 @@ public class logica {
 				registroComprador(sc, ECOMUN);
 				break;
 			
-			//ui.ProductosPorCoop(ECOMUN.getCooperativas().get(i));
 			}
 		}
 	}

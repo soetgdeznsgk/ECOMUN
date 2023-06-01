@@ -51,6 +51,7 @@ public class Comprador extends Usuario{
 	@Override
 	
 	public String toString() {
+		//System.out.print(this.getNombre())// debug
 		return (this.getNombre() + "," + this.getInfPago() + "," + this.getTel() + "," + this.getRegion().getNombre() + "\n");
 	}
 
