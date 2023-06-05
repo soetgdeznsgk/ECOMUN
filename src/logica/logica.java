@@ -15,6 +15,7 @@ public class logica {
 		System.out.println("Su usuario no se registrará en caso de que ECOMUN no tenga cobertura en su área");
 		System.out.println("Ingrese su nombre");
 		String nombre = sc.nextLine();
+		nombre = sc.nextLine();
 		System.out.println("Ingrese su teléfono de contacto");
 		String telContacto = sc.nextLine();
 		System.out.println("Ingrese su información de pago");
@@ -25,7 +26,7 @@ public class logica {
 		Region region = e.getRegiones().get(eleccion);
 		
 		try {
-			FileWriter fw = new FileWriter(ubicacionDeDatos);
+			FileWriter fw = new FileWriter(ubicacionDeDatos, true);
 			Comprador comprador = new Comprador(nombre, telContacto, infPago, region);
 			fw.write(comprador.toString());
 			fw.close();
@@ -65,8 +66,8 @@ public class logica {
 					nombre = outTemp[0];
 					infPago = outTemp[1];
 					tel = outTemp[2];
-					System.out.println(outTemp[3]); // debug
-					System.out.println(e.getRegion(outTemp[3])); // debug
+					//System.out.println(outTemp[3]); // debug
+					//System.out.println(e.getRegion(outTemp[3]).getNombre()); // debug
 					region = e.getRegion(outTemp[3]);
 					
 					compradorTemp = new Comprador(nombre, infPago, tel, region);
@@ -75,6 +76,7 @@ public class logica {
 					temp = "";
 				}
 			}
+			
 			
 			sc.close();
 			
@@ -85,6 +87,26 @@ public class logica {
 			e1.printStackTrace();
 		}
 		return compradores;
+	}
+	
+	public static Comprador iniciarSesion(Ecomun e, Scanner sc) {
+		Comprador usuarioActual = null;
+		String nombre;
+		
+		System.out.println("Ingrese su nombre, si está registrado, se iniciará su sesión");
+		nombre = sc.nextLine();
+		
+		for (Comprador c: e.getCompradores()) {
+			if (c.getNombre().toLowerCase().equals(nombre.toLowerCase())) {
+				usuarioActual = c;
+			}
+		}
+		
+		if (usuarioActual == null) {
+			System.out.println("No se encuentra la información de comprador, se inicia sesión como invitadx");
+		}
+		
+		return usuarioActual;
 	}
 	
 	
@@ -128,27 +150,46 @@ public class logica {
 		
 		// main
 		
+		Comprador user = null;
+		
 		while (true) {
 			ECOMUN.setCompradores(lecturaCompradores(ECOMUN));
-
-			//ui.Regiones(ECOMUN);
-			for (Comprador c: ECOMUN.getCompradores()){
-				System.out.println(c.toString());
+			
+			if (user == null) {
+				user = iniciarSesion(ECOMUN, sc);
 			}
-			ui.Bienvenida();
+			//ui.Regiones(ECOMUN);
+			/*for (Comprador c: ECOMUN.getCompradores()){
+				System.out.print(c.toString());
+			}*/
+
+			ui.Bienvenida(user);
+			
+
+			
 			int input1 = sc.nextInt();
+			int input2, input3;
 			
 			switch (input1) {
-			case 0:
+			case -1:
 				continue;
-			case 1:
+			case 0:
 				ui.Coops(ECOMUN);
+				input2 = sc.nextInt();
+				ui.ProductosPorCoop(ECOMUN.getCooperativas().get(input2));
 				break;
-			case 2:
-				break;
-			case 3:
+			case 1:
+				input2 = sc.nextInt();
 				registroComprador(sc, ECOMUN);
 				break;
+			case 2:
+				input2= sc.nextInt();
+				break;
+			case 4:
+				try {
+					
+				}
+				
 			
 			}
 		}
