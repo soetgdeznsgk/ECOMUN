@@ -21,9 +21,13 @@ public class Usuario extends Entidad{
 	
 	public Boolean pagar() {		// para que varíe un tris le puse que el pago a veces pasara y a veces no
 		Random rand = new Random();
-		int i = rand.nextInt(6);
+		Boolean i = (rand.nextInt(6) % 2 ) == 0;
 		
-		return (i % 2 == 0);
+		if (i) {
+			this._listaProductos.clear();
+		}
+		
+		return i;
 	}
 	
 	public Boolean recibirPago(Producto producto) {		// el dinero es una ilusión

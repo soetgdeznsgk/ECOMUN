@@ -3,18 +3,83 @@ import clases.*;
 import UI.ui;
 
 import java.io.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class logica {
 
+	static Scanner sc = new Scanner(System.in);
 	static String directorioActual = System.getProperty("user.dir");
 	static String ubicacionDeDatos = directorioActual + File.separator + "src" + File.separator + "datos_usuarios.txt";
 	
-	public static Boolean registroComprador(Scanner sc, Ecomun e) {
+	
+	
+	
+	public static void mercar(Cooperativa coop, Comprador comp) {
+		int temp;
+		int cuenta = 0;
+		
+		while (true) {
+			temp = sc.nextInt();
+			
+			try {
+				comp.addToLista(coop.getLista().get(temp));
+				System.out.println("Lista actual: ");
+				for (Producto p: comp.getLista()) {
+					System.out.println(Integer.toString(cuenta++) + ". "
+							+ p.get_nombre() + " " + p.get_precio() + "$");
+				}
+				cuenta = 0;
+				
+			}
+			
+			catch (IndexOutOfBoundsException ex) {
+				System.out.println("Saliendo del menú");
+				break;}
+				
+			catch (InputMismatchException ex) {
+				System.out.println("Sólo números!");
+				break;
+			}
+		}
+	}
+	
+	
+	
+	public static void eliminarDeLista(Comprador comp) {
+		int temp;
+		int cuenta = 0;
+		
+		while (true) {
+			temp = sc.nextInt();
+			
+			try {
+				comp.rmFromLista(temp);
+				System.out.println("Lista actual: ");
+				for (Producto p: comp.getLista()) {
+					System.out.println(Integer.toString(cuenta++) + ". "
+							+ p.get_nombre() + " " + p.get_precio() + "$");
+				}
+				cuenta = 0;
+			}
+			
+			catch (IndexOutOfBoundsException ex) {
+				System.out.println("Saliendo del menú");
+				break;}
+			catch (InputMismatchException ex) {
+				System.out.println("Sólo números!");
+				break;}
+		}
+	}
+	
+	
+	public static Boolean registroComprador(Ecomun e) {
+		String nombre;
+		int eleccion;
+		
 		System.out.println("Su usuario no se registrará en caso de que ECOMUN no tenga cobertura en su área");
 		System.out.println("Ingrese su nombre");
-		String nombre = sc.nextLine();
 		nombre = sc.nextLine();
 		System.out.println("Ingrese su teléfono de contacto");
 		String telContacto = sc.nextLine();
@@ -22,7 +87,15 @@ public class logica {
 		String infPago = sc.nextLine();
 		System.out.println("Seleccione alguna de las siguientes regiones");
 		ui.Regiones(e);
-		int eleccion = sc.nextInt();
+		
+		
+		
+		try {
+			eleccion = sc.nextInt();}
+		catch (InputMismatchException ex) {
+			return false;
+		}
+		
 		Region region = e.getRegiones().get(eleccion);
 		
 		try {
@@ -38,6 +111,8 @@ public class logica {
 		}
 		
 	}
+	
+	
 	
 	
 	public static ArrayList<Comprador> lecturaCompradores(Ecomun e) {
@@ -89,9 +164,16 @@ public class logica {
 		return compradores;
 	}
 	
-	public static Comprador iniciarSesion(Ecomun e, Scanner sc) {
+	
+	
+	
+	public static Comprador iniciarSesion(Ecomun e, Boolean b) {
 		Comprador usuarioActual = null;
 		String nombre;
+		
+		if (b) {
+			return null;
+		}
 		
 		System.out.println("Ingrese su nombre, si está registrado, se iniciará su sesión");
 		nombre = sc.nextLine();
@@ -113,7 +195,6 @@ public class logica {
 	
 	public static void main(String[] args) {
 		//System.out.println("-aca comienza- \n"+ubicacionDeDatos+"\n-aca termina"); debug
-		Scanner sc = new Scanner(System.in);
 		// ECOMUN
 		Ecomun ECOMUN = new Ecomun("+57 300 1112233");
 		
@@ -150,48 +231,97 @@ public class logica {
 		
 		// main
 		
+		Boolean seHaIniciado = false;
 		Comprador user = null;
 		
 		while (true) {
+			
+			System.out.println("REINICIO");// debug 
 			ECOMUN.setCompradores(lecturaCompradores(ECOMUN));
 			
 			if (user == null) {
-				user = iniciarSesion(ECOMUN, sc);
+				user = iniciarSesion(ECOMUN, seHaIniciado);
 			}
-			//ui.Regiones(ECOMUN);
-			/*for (Comprador c: ECOMUN.getCompradores()){
-				System.out.print(c.toString());
-			}*/
+			
+			seHaIniciado = true;
 
 			ui.Bienvenida(user);
 			
 
+			int input1;
 			
-			int input1 = sc.nextInt();
+			try {
+				input1 = sc.nextInt();
+				}
+			catch (InputMismatchException ex) {
+				System.out.println("Sólo números!");
+				continue;}
+			
 			int input2, input3;
 			
 			switch (input1) {
-			case -1:
-				continue;
-			case 0:
-				ui.Coops(ECOMUN);
-				input2 = sc.nextInt();
-				ui.ProductosPorCoop(ECOMUN.getCooperativas().get(input2));
-				break;
-			case 1:
-				input2 = sc.nextInt();
-				registroComprador(sc, ECOMUN);
-				break;
-			case 2:
-				input2= sc.nextInt();
-				break;
-			case 4:
-				try {
+				case -1:
+					continue;
 					
-				}
-				
-			
+					
+				case 0:
+					ui.Coops(ECOMUN);			
+					try {
+						input2 = sc.nextInt();
+						Cooperativa cooperativaActual = ECOMUN.getCooperativas().get(input2);
+						ui.ProductosPorCoop(cooperativaActual);
+						if (user != null) {
+							System.out.println("Para añadir un producto al carrito, ingrese su indice, para dejar de mercar: cualquier otro numero");
+							mercar(cooperativaActual, user);
+							
+						}
+						}
+					catch (IndexOutOfBoundsException ex) {
+						System.out.println("Fuera de límites!");
+					}
+					catch (InputMismatchException ex) {
+						System.out.println("Sólo números!");
+					}
+					break;
+					
+					
+				case 1:
+					input2 = sc.nextInt();
+					break;
+					
+					
+				case 2:
+					if (user != null) {
+						ui.InfoCuenta(user);		// TODAVÍA NO ESTÁ TESTEADO
+						System.out.println("\nSi desea eliminar algún producto del carrito, ingrese su índice, para volver al menú: cualquier otro numero\n");
+						ui.opcionesDentroDeInfo();
+						input2 = sc.nextInt();
+						
+						switch (input2) {
+							case 0: 
+								eliminarDeLista(user);
+							break;
+							
+							case 1:
+								ui.pagar(user);
+								break;
+							}
+					}
+					
+					else {
+						registroComprador(ECOMUN);
+					}
+					break;
+					
+				case 3:
+					if (user != null) {
+						user = null;
+						continue;}
+					else {
+						user = iniciarSesion(ECOMUN, false);
+					}
 			}
+			
 		}
 	}
 }
