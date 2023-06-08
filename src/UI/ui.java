@@ -1,8 +1,13 @@
 package UI;
 import clases.*;
+import java.util.ArrayList;
+import org.javatuples.*;
 import logica.*;
 
-public class ui {
+public final class ui {
+	private static int contador = 0; //solamente para imprimir los índices de las listas
+	
+	
 	public static void Bienvenida(Comprador user) {
 		for(int i = 0; i < 30; i++) {
 			System.out.print("/\\");
@@ -31,16 +36,18 @@ public class ui {
 	}
 	
 	public static void Coops(Ecomun ECOMUN) {
+		contador = 0;
 		for(Cooperativa c: ECOMUN.getCooperativas()) {
-			System.out.println(Integer.toString(ECOMUN.getCooperativas().indexOf(c)) + ". "
+			System.out.println(contador++ + ". "
 					+ c.getNombre() + " (" + c.get_especializacion() + ") - " + c.getRegion().getNombre());
 		}
 	}
 	
 	public static void ProductosPorCoop(Cooperativa coop) {
+		contador = 0;
 		System.out.println(coop.getNombre() + ", teléfono de contacto " + coop.getTel());
 		for(Producto p: coop.getLista()) {
-			System.out.println(Integer.toString(coop.getLista().indexOf(p)) + ". "
+			System.out.println(contador++ + ". "
 					+ p.get_nombre() + " (" + p.get_categoria() +") "+ p.get_precio() + "$ ," + p.get_disponibilidad() + "disponibles");
 		}
 	}
@@ -56,14 +63,11 @@ public class ui {
 		System.out.println("Nombre de cuenta : " + c.getNombre());
 		System.out.println("Teléfono de contacto: " + c.getTel());
 		System.out.println("Información de pago: " + c.getInfPago());
-		System.out.print("Actualmente en el carrito: \n");
-		int cuenta = 0;
-		for (Producto p: c.getLista()) {
-			System.out.println(Integer.toString(cuenta++) + ". "
-					+ p.get_nombre() + " " + p.get_precio() + "$");
-		}
+		System.out.print("Actualmente en el carrito: \n\n");
+		imprimirProductosDesdeCarrito(c.getCarrito());
+		System.out.println();
 		
-		System.out.println("Precio total del carrito: " + Float.toString(c.getPrecioCarrito()));
+		System.out.println("Precio total del carrito: $" + Float.toString(c.getPrecioCarrito()));
 		
 		
 	}
@@ -74,6 +78,14 @@ public class ui {
 		return valor;
 	}
 	
+	public static void imprimirProductosDesdeCarrito(ArrayList<Pair<Cooperativa, Producto>> carrito) {
+		contador = 0;
+		
+		for (Pair<Cooperativa, Producto> Tupla : carrito) {
+			System.out.println(contador++ + ". " + Tupla.getValue1().get_nombre() + " $" + Tupla.getValue1().get_precio());
+		}
+		
+	}
 	
 	
 	

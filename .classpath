@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Emilio/Desktop/ECOMUN/ECOMUN/plugin/javatuples-1.2.jar"/>
+	<classpathentry kind="lib" path="plugin/javatuples-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

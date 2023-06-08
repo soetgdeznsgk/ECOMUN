@@ -18,20 +18,16 @@ public class logica {
 	
 	public static void mercar(Cooperativa coop, Comprador comp) {
 		int temp;
-		int cuenta = 0;
+		//int cuenta = 0;
 		
 		while (true) {
 			temp = sc.nextInt();
 			sc.nextLine(); // limpieza de buffer
 			
 			try {
-				comp.addToLista(coop.getLista().get(temp));
+				comp.addToCarrito(coop, coop.getLista().get(temp));
 				System.out.println("Lista actual: ");
-				for (Producto p: comp.getLista()) {
-					System.out.println(Integer.toString(cuenta++) + ". "
-							+ p.get_nombre() + " " + p.get_precio() + "$");
-				}
-				cuenta = 0;
+				ui.imprimirProductosDesdeCarrito(comp.getCarrito());
 				
 			}
 			
@@ -50,23 +46,20 @@ public class logica {
 	
 	public static void eliminarDeLista(Comprador comp) {
 		int temp;
-		int cuenta = 0;
+		//int cuenta = 0;
 		
 		while (true) {
 			temp = sc.nextInt();
 			sc.nextLine(); // limpieza de buffer
 			
 			try {
-				comp.rmFromLista(temp);
+				comp.rmFromCarrito(temp);
 				System.out.println("Lista actual: ");
-				for (Producto p: comp.getLista()) {
-					System.out.println(Integer.toString(cuenta++) + ". "
-							+ p.get_nombre() + " " + p.get_precio() + "$");
-				}
-				cuenta = 0;
+				ui.imprimirProductosDesdeCarrito(comp.getCarrito());
 			}
 			
 			catch (IndexOutOfBoundsException ex) {
+				ex.printStackTrace();
 				System.out.println("Saliendo del menú");
 				break;}
 			catch (InputMismatchException ex) {

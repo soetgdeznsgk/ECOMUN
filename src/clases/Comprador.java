@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import org.javatuples.Pair;
 
 public class Comprador extends Usuario{
-	ArrayList<Producto> _historialDeCompra = new ArrayList<Producto>();
-	ArrayList<Pair<Cooperativa, Producto>> _carrito = new ArrayList<Pair<Cooperativa,Producto>>(); // a implementar
+	ArrayList<Producto> _historialDeCompra = new ArrayList<Producto>(); // no se ha usado hasta ahora
+	ArrayList<Pair<Cooperativa, Producto>> _carrito = new ArrayList<Pair<Cooperativa,Producto>>(); // guarda la cooperativa de la que proviene el producto
 	
 	float _precioCarritoCompra = 0;
 
@@ -18,7 +18,7 @@ public class Comprador extends Usuario{
 		return super.pagar();
 	}
 	
-	@Override
+	/*@Override
 	
 	public void addToLista(Producto p) {
 		super.addToLista(p);
@@ -32,11 +32,22 @@ public class Comprador extends Usuario{
 		return super.rmFromLista(p);
 	}
 	
-	@Override
+	@Override*/
 	
-	public Boolean rmFromLista(int indice) {
-		this._precioCarritoCompra -= this.getLista().get(indice).get_precio();
-		return super.rmFromLista(indice);
+	public void addToCarrito(Cooperativa c, Producto p) {
+		Pair<Cooperativa, Producto> tupla = new Pair<Cooperativa, Producto>(c, p);
+		this._carrito.add(tupla);
+		this._precioCarritoCompra += p.get_precio();
+	}
+	
+	public void rmFromCarrito(int indice) {
+		this._precioCarritoCompra -= this.getCarrito().get(indice).getValue1().get_precio();
+		this._carrito.remove(indice);
+		//return super.rmFromLista(indice);
+	}
+	
+	public ArrayList<Pair<Cooperativa, Producto>> getCarrito() {
+		return this._carrito;
 	}
 	
 	public ArrayList<Producto> getHistorial(){
