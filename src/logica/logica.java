@@ -22,6 +22,7 @@ public class logica {
 		
 		while (true) {
 			temp = sc.nextInt();
+			sc.nextLine(); // limpieza de buffer
 			
 			try {
 				comp.addToLista(coop.getLista().get(temp));
@@ -53,6 +54,7 @@ public class logica {
 		
 		while (true) {
 			temp = sc.nextInt();
+			sc.nextLine(); // limpieza de buffer
 			
 			try {
 				comp.rmFromLista(temp);
@@ -74,6 +76,7 @@ public class logica {
 	}
 	
 	
+	
 	public static Boolean registroComprador(Ecomun e) {
 		String nombre;
 		int eleccion;
@@ -91,7 +94,10 @@ public class logica {
 		
 		
 		try {
-			eleccion = sc.nextInt();}
+			eleccion = sc.nextInt();
+			sc.nextLine(); // limpieza de buffer
+		}
+		
 		catch (InputMismatchException ex) {
 			return false;
 		}
@@ -203,6 +209,7 @@ public class logica {
 		Region Uraba = new Region("Uraba", "303 3000003", "Caucasia, Calle 13 #2-32");
 		Region Tolima = new Region("Tolima", "999 9999", "Ibague, Calle 1 # 3");
 		Region Antioquia = new Region("Antioquia", "989 8989", "Medellín, Barranquilla con 3ra");
+		Region Guajira = new Region("Guajira", "999 8765", "Riohacha, 2da con 5ta ed. Maria Paulina apto 302");
 		
 		// Usuarios 
 		//Comprador PepeGrillo = new Comprador("Pepe Grillo", "123 4567890", "1234-5678-9101-1121", Cundinamarca);
@@ -211,10 +218,13 @@ public class logica {
 		// Productos
 		
 		ProductoOrganico Aguacate = new ProductoOrganico((float) 0.4, "Aguacate", "Fruta", 3100, 2, 6, 23);
-		ProductoInorganico Abono = new ProductoInorganico((float) 200.0, "Abono", "Fertilizante", 100000, 750);
 		ProductoOrganico Papa = new ProductoOrganico((float) 0.1, "Papa", "Hortaliza", 1600, 9, 6, 23);
 		ProductoOrganico CervezaArtesanal = new ProductoOrganico((float) 0.2, "Cerveza Artesanal", "Fermentado", 3000, 10, 10, 24);
 		ProductoOrganico VinoArtesanal = new ProductoOrganico((float) 1, "Vino Artesanal", "Fermentado", 45000, 10, 10, 24);
+		
+		ProductoInorganico Mochilas = new ProductoInorganico((float) 0.5, "Mochila", "Textil", 20000, 1);
+		ProductoInorganico Abono = new ProductoInorganico((float) 200.0, "Abono", "Fertilizante", 100000, 750);
+		//ProductoInorganico CafeEnPolvo = new ProductoInorganico(());
 		
 		// Cooperativas
 		
@@ -249,9 +259,11 @@ public class logica {
 			
 
 			int input1;
+		
 			
 			try {
 				input1 = sc.nextInt();
+				sc.nextLine(); // limpieza de buffer
 				}
 			catch (InputMismatchException ex) {
 				System.out.println("Sólo números!");
@@ -268,6 +280,7 @@ public class logica {
 					ui.Coops(ECOMUN);			
 					try {
 						input2 = sc.nextInt();
+						sc.nextLine(); // limpieza de buffer
 						Cooperativa cooperativaActual = ECOMUN.getCooperativas().get(input2);
 						ui.ProductosPorCoop(cooperativaActual);
 						if (user != null) {
@@ -287,6 +300,7 @@ public class logica {
 					
 				case 1:
 					input2 = sc.nextInt();
+					sc.nextLine(); // limpieza de buffer
 					break;
 					
 					
@@ -296,6 +310,7 @@ public class logica {
 						System.out.println("\nSi desea eliminar algún producto del carrito, ingrese su índice, para volver al menú: cualquier otro numero\n");
 						ui.opcionesDentroDeInfo();
 						input2 = sc.nextInt();
+						sc.nextLine(); // limpieza de buffer
 						
 						switch (input2) {
 							case 0: 

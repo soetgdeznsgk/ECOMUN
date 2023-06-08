@@ -1,8 +1,12 @@
 package clases;
+
 import java.util.ArrayList;
+import org.javatuples.Pair;
 
 public class Comprador extends Usuario{
 	ArrayList<Producto> _historialDeCompra = new ArrayList<Producto>();
+	ArrayList<Pair<Cooperativa, Producto>> _carrito = new ArrayList<Pair<Cooperativa,Producto>>(); // a implementar
+	
 	float _precioCarritoCompra = 0;
 
 	@Override
