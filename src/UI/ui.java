@@ -23,11 +23,19 @@ public final class ui {
 		
 		System.out.println("Bienvenidx al catálogo virtual de ECOMUN (Economías Sociales del Común)\n"
 				+ "\n0. Ver tiendas por región"
-				+ "\n1. Ver Producto por región"
 				+ ((user == null) ? 
-						"\n2. Para registrarse como comprador\n3. Para iniciar sesión como comprador" : 
-							"\n2. Consultar información de cuenta \n3. Cerrar sesión")
+						"\n1. Para registrarse como comprador\n2. Para iniciar sesión como comprador" : 
+							"\n1. Consultar información de cuenta \n2. Cerrar sesión")
+				+ "\n3. Acerca de ECOMUN"
 				+ "\nEn cualquier momento puede ingresar el índice -1 para volver al menú de inicio");
+	}
+	
+	public static void InfoEcomun() {
+		System.out.println("ECOMUN La cooperativa Economías Sociales del Común – ECOMUN, es el esfuerzo colectivo de ex-guerrilleras y ex-guerrilleros de las FARC- EP junto a las comunidades, para construir Paz con Justicia Social, Reconciliación y Buen Vivir, \na través de la puesta en marcha de iniciativas de economía social y solidaria (cooperativas y otras formas asociativas). Vamos más allá de la reincorporación de las y los ex-guerrilleros y contribuimos al fortalecimiento de la economía solidaria en Colombia. Paz con Justicia Social, Reconciliación y Buen Vivir.");
+		System.out.println("ECOMUN actualmente cuenta con " + Ecomun.getCantidadMiembrxs());
+		System.out.print("ECOMUN actualmente tiene alcance en las siguientes regiones: ");
+		alcanceTotal();
+		System.out.println();
 	}
 	
 	public static void opcionesDentroDeInfo() {
@@ -38,8 +46,10 @@ public final class ui {
 	public static void Coops(Ecomun ECOMUN) {
 		contador = 0;
 		for(Cooperativa c: ECOMUN.getCooperativas()) {
-			System.out.println(contador++ + ". "
-					+ c.getNombre() + " (" + c.get_especializacion() + ") - " + c.getRegion().getNombre());
+			System.out.print(contador++ + ". "
+					+ c.getNombre() + " (" + c.get_especializacion() + ") - " + c.getRegion().getNombre() + ".    Alcance : ");
+			RegionesPorCooperativa(c);
+			System.out.println();
 		}
 	}
 	
@@ -99,6 +109,18 @@ public final class ui {
 			System.out.println(contador++ + ". " + Tupla.getValue1().get_nombre() + " $" + Tupla.getValue1().get_precio());
 		}
 		
+	}
+	
+	public static void RegionesPorCooperativa(Cooperativa c) {
+		for (Region r : c.getAlcance()){
+			System.out.print(r.getNombre() + " ");
+		}
+	}
+	
+	public static void alcanceTotal() {
+		for (Region r: Ecomun.getRegiones()) {
+			System.out.print(r.getNombre() + " ");
+		}
 	}
 	
 	

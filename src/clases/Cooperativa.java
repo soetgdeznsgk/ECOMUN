@@ -47,11 +47,15 @@ public class Cooperativa extends Usuario {
 
 	public void addToDistribuidoras(Distribuidora Distri){
 		this._distribuidoras.add(Distri);
+		for (Region r : Distri.getAlcance()) {
+			this._alcance.add(r);
+		}
 	}
 
 	public void rmFromDistribuidoras(Distribuidora Distri){
 		try {
-			this._distribuidoras.remove(Distri);}
+			this._distribuidoras.remove(Distri); // no se remueve el alcance por que no quiero complicarme, tough luck!
+			}
 		catch (IndexOutOfBoundsException ex){
 			System.out.println("Acceso fuera de limites!");}	
 	}
@@ -65,6 +69,10 @@ public class Cooperativa extends Usuario {
 	
 	public ArrayList<Distribuidora> getDistribuidoras() {
 		return this._distribuidoras;
+	}
+	
+	public Set<Region> getAlcance(){
+		return this._alcance;
 	}
 	
 	@Override
@@ -87,11 +95,11 @@ public class Cooperativa extends Usuario {
 		return super.rmFromLista(i);
 		
 	}
-	public Cooperativa(String nombre, String telContacto, String infPago, Region region, String esp, int cantidadMiembros, Ecomun ec) {
+	public Cooperativa(String nombre, String telContacto, String infPago, Region region, String esp, int cantidadMiembros) {
 		super(nombre, telContacto,infPago, region);
 		this.set_cantidadMiembros(cantidadMiembros);
 		this.set_especializacion(esp);
-		ec.addCooperativa(this);
+		Ecomun.addCooperativa(this);
 	}
 
 

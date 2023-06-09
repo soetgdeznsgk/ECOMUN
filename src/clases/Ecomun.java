@@ -2,66 +2,81 @@ package clases;
 import java.util.ArrayList;
 
 public final class Ecomun extends Entidad{
-	ArrayList<Region> _alcanceNacional = new ArrayList<Region>(); // no está planteado como cambiar éste atributo al eliminar una cooperativa
-	ArrayList<Cooperativa> _cooperativas = new ArrayList<Cooperativa>();
-	ArrayList<Distribuidora> _Distribuidores = new ArrayList<Distribuidora>();
-	ArrayList<Comprador> _compradores; // se instancia cada loop
+	static ArrayList<Region> _alcanceNacional = new ArrayList<Region>(); // no está planteado como cambiar éste atributo al eliminar una cooperativa
+	static ArrayList<Cooperativa> _cooperativas = new ArrayList<Cooperativa>();
+	static ArrayList<Distribuidora> _Distribuidores = new ArrayList<Distribuidora>();
+	static ArrayList<Comprador> _compradores; // se instancia cada loop
+	static int _miembrxs = 0;
 	
-	public void setCompradores(ArrayList<Comprador> c) {
-		this._compradores = c;
+	public static void setCompradores(ArrayList<Comprador> c) {
+		_compradores = c;
 	}
 
-	public ArrayList<Comprador> getCompradores(){
-		return this._compradores;
+	public static ArrayList<Comprador> getCompradores(){
+		return _compradores;
 	}
 	
-	public void addDistribuidora(Distribuidora d){
-		this._Distribuidores.add(d);
+	public static void addDistribuidora(Distribuidora d){
+		_Distribuidores.add(d);
+		_miembrxs += d.get_cantidadMiembros();
+
 		for (Region r: d.getAlcance()){
-			if (!this._alcanceNacional.contains(r)){
-				this._alcanceNacional.add(r);
-			}
+			addRegion(r);
+		}
+	}
+	
+	public static void addRegion(Region r) {
+		if (!_alcanceNacional.contains(r)) {
+			_alcanceNacional.add(r);
 		}
 	}
 
-	public ArrayList<Distribuidora> getDistribuidoras(){
-		return this._Distribuidores;
+	public static ArrayList<Distribuidora> getDistribuidoras(){
+		return _Distribuidores;
 	}
 
-	public void addCooperativa(Cooperativa coop) {
-		this._cooperativas.add(coop);
-		this._alcanceNacional.add(coop.getRegion());
+	public static void addCooperativa(Cooperativa coop) {
+		_miembrxs += coop.get_cantidadMiembros();
+		_cooperativas.add(coop);
+		_alcanceNacional.add(coop.getRegion());
 	}
 	
-	public Boolean rmCooperativa(Cooperativa coop) {
-		this._cooperativas.remove(coop);
+	public static Boolean rmCooperativa(Cooperativa coop) {
+		_cooperativas.remove(coop);
+		_miembrxs -= coop.get_cantidadMiembros();
 		
 		return true;}
 	
-	public Boolean rmCooperativa(int indice) {
+	public static Boolean rmCooperativa(int indice) {
+		Cooperativa temp;
 		try {
-			this._cooperativas.remove(indice);
+			temp = _cooperativas.remove(indice);
+			_miembrxs -= temp.get_cantidadMiembros();
 			return true;}
 		
 		catch(IndexOutOfBoundsException ex) {
 			return false;}
 	}
 	
-	public void clrCoops() {
-		this._cooperativas.clear();
+	public static int getCantidadMiembrxs() {
+		return _miembrxs;
+	}
+	public static void clrCoops() {
+		_cooperativas.clear();
+		_miembrxs = 0;
 	}
 	
-	public ArrayList<Cooperativa> getCooperativas(){
-		return this._cooperativas;
+	public static ArrayList<Cooperativa> getCooperativas(){
+		return _cooperativas;
 	}
 	
-	public ArrayList<Region> getRegiones(){
-		return this._alcanceNacional;
+	public static ArrayList<Region> getRegiones(){
+		return _alcanceNacional;
 	}
 	
 	public Region getRegion(String nombre) {
 		
-		for (Region r: this._alcanceNacional) {
+		for (Region r: _alcanceNacional) {
 			/*for (int i  = 0; i < a.length(); i++){
 				System.out.print(a.charAt(i) + "=" + b.charAt(i));
 			}*/

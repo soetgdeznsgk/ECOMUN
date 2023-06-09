@@ -219,11 +219,13 @@ public class logica {
 		
 		// Regiones
 		Region Cundinamarca = new Region("Cundinamarca", "101 2023030", "Madrid, Vereda El Tumulto, Casa 5");
-		Region Uraba = new Region("Uraba", "303 3000003", "Caucasia, Calle 13 #2-32");
+		Region Cordoba = new Region("Cordoba", "303 3000003", "Montería, Calle 13 #2-32");
 		Region Tolima = new Region("Tolima", "999 9999", "Ibague, Calle 1 # 3");
 		Region Antioquia = new Region("Antioquia", "989 8989", "Medellín, Barranquilla con 3ra");
 		Region Guajira = new Region("Guajira", "999 8765", "Riohacha, 2da con 5ta ed. Maria Paulina apto 302");
 		Region Huila = new Region("Huila", "139 283746", "Neiva, Calle 8 con 46, Local 1");
+		Region Narino = new Region("Narino", "909 0000", "Pasto, Carrera 15 con 2da, Tienda Mercadar");
+		Region Cauca = new Region("Cauca", "141 4444", "Popayán, Calle de la Barcelona con 15va, Apto 202");
 		
 		// Usuarios 
 		//Comprador PepeGrillo = new Comprador("Pepe Grillo", "123 4567890", "1234-5678-9101-1121", Cundinamarca);
@@ -243,13 +245,16 @@ public class logica {
 		
 		// Cooperativas
 		
-		Cooperativa LaRoja = new Cooperativa("Cerveza Roja", "111 1111", "xxxx-yyyy-zzzz-oooo", Tolima, "Fermentados", 50, ECOMUN);
+		Cooperativa LaRoja = new Cooperativa("Cerveza Roja", "111 1111", "xxxx-yyyy-zzzz-oooo", Tolima, "Fermentados", 50);
 		LaRoja.addToLista(CervezaArtesanal);
 		LaRoja.addToLista(VinoArtesanal);
-		Cooperativa CfParamillo = new Cooperativa("Cafe Paramillo", "333 1112223", "solomillos gonorrea", Antioquia, "Agricultura", 38, ECOMUN);
+		Cooperativa CfParamillo = new Cooperativa("Cafe Paramillo", "333 1112223", "solomillos gonorrea", Antioquia, "Agricultura", 38);
 		CfParamillo.addToLista(CafeEnPolvo);
-		Cooperativa Manusm = new Cooperativa("Mercado Artesanal Nacional de Usme", "101 0101", "solo usme gono", Cundinamarca, "Agricultura", 14, ECOMUN);
-		Cooperativa FiqueRojo = new Cooperativa("Fique Rojo", "101 2022", "ooo", Huila, "Textiles", 13, ECOMUN);
+		Cooperativa Manusm = new Cooperativa("Mercado Artesanal Nacional de Usme", "101 0101", "solo usme gono", Cundinamarca, "Agricultura", 14);
+		Manusm.addToLista(Abono);
+		Manusm.addToLista(Papa);
+		Manusm.addToLista(Aguacate);
+		Cooperativa FiqueRojo = new Cooperativa("Fique Rojo", "101 2022", "ooo", Huila, "Textiles", 13);
 		FiqueRojo.addToLista(Mochilas);
 		// Distribuidoras
 		
@@ -258,7 +263,15 @@ public class logica {
 		EntregaRoja.addToAlcance(Huila);
 		EntregaRoja.addToAlcance(Cundinamarca);
 		LaRoja.addToDistribuidoras(EntregaRoja);
+		Manusm.addToDistribuidoras(EntregaRoja);
 		Distribuidora LaPola = new Distribuidora("Transporte La Pola", "302 3000", "x-x-x-x", Tolima, 15);
+		LaPola.addToAlcance(Cauca);
+		LaPola.addToAlcance(Narino);
+		FiqueRojo.addToDistribuidoras(LaPola);
+		Distribuidora Manigua = new Distribuidora("Manigua", "111 0202", "opop", Antioquia, 10);
+		Manigua.addToAlcance(Antioquia);
+		Manigua.addToAlcance(Cordoba);
+		CfParamillo.addToDistribuidoras(Manigua);
 		
 		// main
 		
@@ -266,9 +279,7 @@ public class logica {
 		Comprador user = null;
 		
 		while (true) {
-			
-			System.out.println("REINICIO");// debug 
-			ECOMUN.setCompradores(lecturaCompradores(ECOMUN));
+			Ecomun.setCompradores(lecturaCompradores(ECOMUN));
 			
 			if (user == null) {
 				user = iniciarSesion(ECOMUN, seHaIniciado);
@@ -290,13 +301,9 @@ public class logica {
 				System.out.println("Sólo números!");
 				continue;}
 			
-			int input2, input3;
+			int input2;
 			
-			switch (input1) {
-				case -1:
-					continue;
-					
-					
+			switch (input1) {				
 				case 0:
 					ui.Coops(ECOMUN);			
 					try {
@@ -320,12 +327,6 @@ public class logica {
 					
 					
 				case 1:
-					input2 = sc.nextInt();
-					sc.nextLine(); // limpieza de buffer
-					break;
-					
-					
-				case 2:
 					if (user != null) {
 						ui.InfoCuenta(user);		
 						System.out.println("\nSi desea eliminar algún producto del carrito, ingrese su índice, para volver al menú: cualquier otro numero\n");
@@ -350,13 +351,17 @@ public class logica {
 					}
 					break;
 					
-				case 3:
+				case 2:
 					if (user != null) {
 						user = null;
 						continue;}
 					else {
 						user = iniciarSesion(ECOMUN, false);
 					}
+					break;
+				case 3:
+					ui.InfoEcomun();
+					sc.nextLine();
 			}
 			
 		}

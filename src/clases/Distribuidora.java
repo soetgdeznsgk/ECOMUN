@@ -31,6 +31,7 @@ public class Distribuidora extends Usuario{
 	
 	public void addToAlcance(Region region) {
 		this._alcance.add(region);
+		Ecomun.addRegion(region);
 	}
 	
 	public void clrAlcance() {
@@ -44,6 +45,7 @@ public class Distribuidora extends Usuario{
 	public Distribuidora(String nombre, String telContacto, String infPago, Region region, int cantidadMiembros) {
 		super(nombre, telContacto, infPago, region);
 		this.set_cantidadMiembros(cantidadMiembros);
+		Ecomun.addDistribuidora(this);;
 	}
 	
 	/*public String alcanceToString() {
