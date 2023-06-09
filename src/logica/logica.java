@@ -2,6 +2,7 @@ package logica;
 import clases.*;
 import UI.ui;
 
+import org.javatuples.*;
 import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -14,6 +15,25 @@ public class logica {
 	static String ubicacionDeDatos = directorioActual + File.separator + "src" + File.separator + "datos_usuarios.txt";
 	
 	
+	
+	public static Boolean verificarAlcanceEnCompra(Comprador c) {
+		int alcanceAVerificar = c.getCarrito().size();
+		int regionesConAlcance = 0;
+		
+		for (Pair<Cooperativa, Producto> tupla : c.getCarrito()) { // primer loop: cada producto de la lista
+			for (Distribuidora dist : tupla.getValue0().getDistribuidoras()) { // segundo loop: cada distribuidora de la cooperativa asociada
+				for(Region r: dist.getAlcance()) {// tercer loop: cada Región de cada distribuidora asociada a la cooperativa
+					//System.out.println(r == c.getRegion());
+					if (r == c.getRegion()) {
+						regionesConAlcance++;		// TODAVÍA NO ESTÁ TESTEADO
+					}
+				}
+				
+			}
+		}
+		
+		return (alcanceAVerificar == regionesConAlcance);
+	}
 	
 	
 	public static void mercar(Cooperativa coop, Comprador comp) {
@@ -203,6 +223,7 @@ public class logica {
 		Region Tolima = new Region("Tolima", "999 9999", "Ibague, Calle 1 # 3");
 		Region Antioquia = new Region("Antioquia", "989 8989", "Medellín, Barranquilla con 3ra");
 		Region Guajira = new Region("Guajira", "999 8765", "Riohacha, 2da con 5ta ed. Maria Paulina apto 302");
+		Region Huila = new Region("Huila", "139 283746", "Neiva, Calle 8 con 46, Local 1");
 		
 		// Usuarios 
 		//Comprador PepeGrillo = new Comprador("Pepe Grillo", "123 4567890", "1234-5678-9101-1121", Cundinamarca);
@@ -214,6 +235,7 @@ public class logica {
 		ProductoOrganico Papa = new ProductoOrganico((float) 0.1, "Papa", "Hortaliza", 1600, 9, 6, 23);
 		ProductoOrganico CervezaArtesanal = new ProductoOrganico((float) 0.2, "Cerveza Artesanal", "Fermentado", 3000, 10, 10, 24);
 		ProductoOrganico VinoArtesanal = new ProductoOrganico((float) 1, "Vino Artesanal", "Fermentado", 45000, 10, 10, 24);
+		ProductoOrganico CafeEnPolvo = new ProductoOrganico((float) 0.5, "Cafe En Polvo Familiar", "Grano", 12500, 13, 11, 29);
 		
 		ProductoInorganico Mochilas = new ProductoInorganico((float) 0.5, "Mochila", "Textil", 20000, 1);
 		ProductoInorganico Abono = new ProductoInorganico((float) 200.0, "Abono", "Fertilizante", 100000, 750);
@@ -225,10 +247,16 @@ public class logica {
 		LaRoja.addToLista(CervezaArtesanal);
 		LaRoja.addToLista(VinoArtesanal);
 		Cooperativa CfParamillo = new Cooperativa("Cafe Paramillo", "333 1112223", "solomillos gonorrea", Antioquia, "Agricultura", 38, ECOMUN);
+		CfParamillo.addToLista(CafeEnPolvo);
 		Cooperativa Manusm = new Cooperativa("Mercado Artesanal Nacional de Usme", "101 0101", "solo usme gono", Cundinamarca, "Agricultura", 14, ECOMUN);
+		Cooperativa FiqueRojo = new Cooperativa("Fique Rojo", "101 2022", "ooo", Huila, "Textiles", 13, ECOMUN);
+		FiqueRojo.addToLista(Mochilas);
 		// Distribuidoras
 		
 		Distribuidora EntregaRoja = new Distribuidora("Entrega Roja", "7700 200", "ykc", Cundinamarca, 32);
+		EntregaRoja.addToAlcance(Tolima);
+		EntregaRoja.addToAlcance(Huila);
+		EntregaRoja.addToAlcance(Cundinamarca);
 		LaRoja.addToDistribuidoras(EntregaRoja);
 		Distribuidora LaPola = new Distribuidora("Transporte La Pola", "302 3000", "x-x-x-x", Tolima, 15);
 		
@@ -299,7 +327,7 @@ public class logica {
 					
 				case 2:
 					if (user != null) {
-						ui.InfoCuenta(user);		// TODAVÍA NO ESTÁ TESTEADO
+						ui.InfoCuenta(user);		
 						System.out.println("\nSi desea eliminar algún producto del carrito, ingrese su índice, para volver al menú: cualquier otro numero\n");
 						ui.opcionesDentroDeInfo();
 						input2 = sc.nextInt();
@@ -307,11 +335,12 @@ public class logica {
 						
 						switch (input2) {
 							case 0: 
+								ui.imprimirProductosDesdeCarrito(user.getCarrito());
 								eliminarDeLista(user);
 							break;
 							
 							case 1:
-								ui.pagar(user);
+								ui.pagar(user); // pendiente de implementar la distribuidora
 								break;
 							}
 					}

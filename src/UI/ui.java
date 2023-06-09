@@ -46,10 +46,16 @@ public final class ui {
 	public static void ProductosPorCoop(Cooperativa coop) {
 		contador = 0;
 		System.out.println(coop.getNombre() + ", teléfono de contacto " + coop.getTel());
-		for(Producto p: coop.getLista()) {
-			System.out.println(contador++ + ". "
-					+ p.get_nombre() + " (" + p.get_categoria() +") "+ p.get_precio() + "$ ," + p.get_disponibilidad() + "disponibles");
+		
+		if (coop.getLista().size() == 0) {
+			System.out.println("Ésta cooperativa no tiene productos por el instante");
 		}
+		
+		else {
+			for(Producto p: coop.getLista()) {
+				System.out.println(contador++ + ". "
+						+ p.get_nombre() + " (" + p.get_categoria() +") "+ p.get_precio() + "$ ," + p.get_disponibilidad() + "disponibles");
+			}}
 	}
 	
 	public static void Regiones(Ecomun E) {
@@ -63,6 +69,7 @@ public final class ui {
 		System.out.println("Nombre de cuenta : " + c.getNombre());
 		System.out.println("Teléfono de contacto: " + c.getTel());
 		System.out.println("Información de pago: " + c.getInfPago());
+		System.out.println("Region registrada : " + c.getRegion().getNombre());
 		System.out.print("Actualmente en el carrito: \n\n");
 		imprimirProductosDesdeCarrito(c.getCarrito());
 		System.out.println();
@@ -73,7 +80,14 @@ public final class ui {
 	}
 	
 	public static Boolean pagar(Comprador c) {
+		
+		if (!logica.verificarAlcanceEnCompra(c)) {
+			System.out.println("Uno o más productos en el carrito no tienen distribuidoras que lleguen hasta tu región");
+			return false;
+		}
+		
 		Boolean valor = c.pagar();
+		
 		System.out.println(valor ? "Pago exitoso!" : "Error en el pago" );
 		return valor;
 	}

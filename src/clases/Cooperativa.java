@@ -1,11 +1,14 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Cooperativa extends Usuario {
 	String _especializacion;
 	ArrayList<Cooperativa> _asociaciones = new ArrayList<Cooperativa>();
 	ArrayList<Distribuidora> _distribuidoras = new ArrayList<Distribuidora>();
+	Set<Region> _alcance = new HashSet<Region>(); // se altera mediante agregarle y quitarle distribuidoras
 	int _cantidadMiembros = 0;
 
 	public String get_especializacion() {
@@ -58,6 +61,10 @@ public class Cooperativa extends Usuario {
 			this._distribuidoras.remove(indice);}
 		catch (IndexOutOfBoundsException ex){
 			System.out.println("Acceso fuera de limites!");}	
+	}
+	
+	public ArrayList<Distribuidora> getDistribuidoras() {
+		return this._distribuidoras;
 	}
 	
 	@Override

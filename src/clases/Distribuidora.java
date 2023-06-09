@@ -46,6 +46,14 @@ public class Distribuidora extends Usuario{
 		this.set_cantidadMiembros(cantidadMiembros);
 	}
 	
+	/*public String alcanceToString() {
+		String temp = "";
+		for (Region r: this._alcance) {
+			temp += r.getNombre() + ",";
+		}
+		return temp;
+	}*/
+	
 	
 	
 }
