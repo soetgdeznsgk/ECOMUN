@@ -1,4 +1,0 @@
-Emiliano Guerra,xxx,350 2825442,Cundinamarca
-Pepe Grillo,yyy,112233,Tolima
-Lolo,987,123,Antioquia
-Manuel Quintana,pololo,311 274 0831,Cundinamarca
